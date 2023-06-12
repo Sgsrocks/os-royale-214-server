@@ -55,7 +55,7 @@ public class ObjectInteractionPacketListener implements PacketListener {
 
     private static void handleFirstClickObject(Player player, GamePacket packet) {
         int x = packet.readShort(ByteOrder.LE, ByteModification.ADD);
-        int id = packet.readShort(false);
+        int id = packet.readInt();
         int y = packet.readShort(false, ByteModification.ADD);
         GameObjectDefinition objectDefinition = GameObjectDefinition.forId(id);
 
@@ -81,7 +81,7 @@ public class ObjectInteractionPacketListener implements PacketListener {
     }
 
     private static void handleSecondClickObject(Player player, GamePacket packet) {
-        final int id = packet.readShort(ByteOrder.LE, ByteModification.ADD);
+        final int id = packet.readInt();
         final int y = packet.readShort(ByteOrder.LE);
         final int x = packet.readShort(false, ByteModification.ADD);
 
@@ -106,7 +106,7 @@ public class ObjectInteractionPacketListener implements PacketListener {
     private static void handleThirdClickObject(Player player, GamePacket packet) {
         final int x = packet.readShort(ByteOrder.LE);
         final int y = packet.readShort(false);
-        final int id = packet.readShort(false, ByteOrder.LE, ByteModification.ADD);
+        final int id = packet.readInt();
 
         final GameObjectDefinition objectDefinition = GameObjectDefinition.forId(id);
 
