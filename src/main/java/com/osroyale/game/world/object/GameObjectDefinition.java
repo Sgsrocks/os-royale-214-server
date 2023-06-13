@@ -8,7 +8,7 @@ package com.osroyale.game.world.object;
 public class GameObjectDefinition {
 
 	/** The maximum number of object definitions */
-	public static final int MAX_DEFINITIONS = 32493; // 31486;
+	public static final int MAX_DEFINITIONS = 47481; // 31486;
 
 	/** The definitions array. */
 	public static GameObjectDefinition[] definitions = new GameObjectDefinition[MAX_DEFINITIONS];
@@ -66,9 +66,10 @@ public class GameObjectDefinition {
 
 	/** The decoration flag, {@code false} by default. */
 	private final boolean decoration;
+	private final boolean aBoolean779;
 
 	/** Creates the definition. */
-	public GameObjectDefinition(int id, String name, String desc, int width, int length, boolean solid, boolean impenetrable, boolean hasActions, boolean wall, boolean decoration) {
+	public GameObjectDefinition(int id, String name, String desc, int width, int length, boolean solid, boolean impenetrable, boolean hasActions, boolean wall, boolean decoration, boolean aBoolean779) {
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
@@ -79,6 +80,7 @@ public class GameObjectDefinition {
 		this.hasActions = hasActions;
 		this.wall = wall;
 		this.decoration = decoration;
+		this.aBoolean779 = aBoolean779;
 	}
 
 	/** @return The id. */
@@ -129,6 +131,9 @@ public class GameObjectDefinition {
 		return decoration;
 	}
 
+	public boolean IsaBoolean779() {
+		return aBoolean779;
+	}
 	@Override
 	public String toString() {
 		return String.format("[id=%s, name=%s, width=%s, length=%s, wall=%s, impenetrable=%s, solid=%s", id, name, width, length, wall, impenetrable, solid);

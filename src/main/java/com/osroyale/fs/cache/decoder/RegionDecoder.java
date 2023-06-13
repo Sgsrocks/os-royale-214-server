@@ -86,14 +86,14 @@ public final class RegionDecoder implements Runnable {
     private void parseGameObject(Region region, ByteBuffer buf, int x, int y, Set<Integer> downHeights) {
         int objId = -1;
         while (true) {
-            int objIdOffset = ByteBufferUtil.getSmart(buf);
+            int objIdOffset = ByteBufferUtil.method9178(buf);
             if (objIdOffset == 0) break;
 
             objId += objIdOffset;
             int objPosInfo = 0;
 
             while (true) {
-                int objPosInfoOffset = ByteBufferUtil.getSmart(buf);
+                int objPosInfoOffset = ByteBufferUtil.readUShortSmart(buf);
                 if (objPosInfoOffset == 0) break;
                 objPosInfo += objPosInfoOffset - 1;
 
@@ -144,7 +144,7 @@ public final class RegionDecoder implements Runnable {
             for (int localX = 0; localX < 64; localX++) {
                 for (int localY = 0; localY < 64; localY++) {
                     while (true) {
-                        int attributeId = mapBuffer.get() & 0xFF;
+                        int attributeId = mapBuffer.getShort() & 0xFFFF;
                         if (attributeId == 0) {
                             break;
                         }
@@ -153,7 +153,7 @@ public final class RegionDecoder implements Runnable {
                             break;
                         }
                         if (attributeId <= 49) {
-                            mapBuffer.get();
+                            mapBuffer.getShort();
                         } else if (attributeId <= 81) {
                             attributes[height][localX][localY] = attributeId - 49;
                         }

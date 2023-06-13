@@ -80,16 +80,17 @@ public final class Cache {
 	 */
 	public ByteBuffer get(int indexId) throws IOException {
 		Index index = readIndex(indexId);
-		long position = (long) index.getId() * SECTOR_HEADER_SIZE;
+		int chunkLength = indexId <= 0xffff ? 512 : 510;
+		int headerLength = indexId <= 0xffff ? 8 : 10;
+		long position = (long) index.getId() * headerLength;
 
-		Preconditions.checkArgument(sectorChannel.size() >= position + SECTOR_SIZE);
+		Preconditions.checkArgument(sectorChannel.size() >= position + chunkLength);
 
 		byte[] data = new byte[index.getLength()];
 		int next = index.getId();
 		int offset = 0;
-
 		for(int chunk = 0; offset < index.getLength(); chunk++) {
-			int read = Math.min(index.getLength() - offset, 512);
+			int read = Math.min(index.getLength() - offset, chunkLength);
 
 			Sector sector = readSector(next, data, offset, read);
 			sector.check(id, indexId, chunk);

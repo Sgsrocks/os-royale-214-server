@@ -104,7 +104,28 @@ public final class ByteBufferUtil {
         }
         return (buffer.getShort() & 0xFFFF) - 32768;
     }
+    public static int method9178(ByteBuffer buf) {
+        int var1 = 0;
 
+        int var2;
+        for(var2 = readUShortSmart(buf); var2 == 32767; var2 = readUShortSmart(buf)) {
+            var1 += 32767;
+        }
+
+        var1 += var2;
+        return var1;
+    }
+    public static int readUShortSmart(ByteBuffer buf) {
+        int var1 = buf.get(buf.position()) & 255;
+        return var1 < 128? buf.get() & 0xFF:buf.getShort() & 0xFFFF - '\u8000';
+    }
+    public static int readShortSmartSub(ByteBuffer buf) {
+        int var1 = buf.get(buf.position()) & 255;
+        return var1 < 128 ? (buf.get() & 0xFF) - 1 : (buf.getShort() & 0xFFFF) - 0x8000;
+    }
+    public static void skip(ByteBuffer bb, int skip) {
+        bb.position( bb.position() + skip);
+    }
     /**
      * Puts a 'smart' (either a {@code byte} or {@code short}.
      *

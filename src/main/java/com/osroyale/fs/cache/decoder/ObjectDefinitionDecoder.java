@@ -49,9 +49,15 @@ public final class ObjectDefinitionDecoder implements Runnable {
         int loaded = 0;
         for (int index = 0; index < count; index++) {
             dat.position(pos);
-            decode(index, dat);
+            try {
+                decode(index, dat);
+            } catch(Exception e){
+                e.printStackTrace();
+                LOGGER.info("error in object opcodes");
+            }
             pos += idx.getShort() & 0xFFFF;
             loaded++;
+            LOGGER.info("id"+loaded);
         }
         LOGGER.info("Loaded " + loaded + " object definitions.");
     }
@@ -77,7 +83,11 @@ public final class ObjectDefinitionDecoder implements Runnable {
         boolean removeClipping = false;
         boolean models = false;
         boolean is10 = true;
-
+        boolean aBoolean779 = false;
+        boolean field3621 = false;
+        boolean aBoolean762 = false;
+        boolean aBoolean769 = false;
+        boolean aBoolean764 = false;
         do {
             int opcode = buf.get();
             if (opcode == 0) break;
@@ -113,6 +123,12 @@ public final class ObjectDefinitionDecoder implements Runnable {
                 impenetrable = false;
             } else if (opcode == 19) {
                 hasActions = (buf.get() == 1);
+            }else if (opcode == 21) {
+                aBoolean762 = true;
+            } else if (opcode == 22) {
+                aBoolean769 = true;
+            } else if (opcode == 23) {
+                    aBoolean764 = true;
             } else if (opcode == 24) {
                 buf.getShort();
             } else if (opcode == 28) {
@@ -130,10 +146,17 @@ public final class ObjectDefinitionDecoder implements Runnable {
             } else if (opcode == 41) {
                 int len = buf.get();
                 buf.position(buf.position() + 2 * len * Short.BYTES);
-            } else if (opcode == 82) {
-                buf.getShort();
+            } else if (opcode == 61) {
+                try {
+                ByteBufferUtil.skip(buf, 2);
+                } catch(Exception e){
+                    e.printStackTrace();
+                    LOGGER.info("error in object opcodes 61");
+                }
             } else if (opcode == 62) {
                 wall = true;
+            } else if (opcode == 64) {
+                aBoolean779 = true;
             } else if (opcode == 65) {
                 buf.getShort();
             } else if (opcode == 66) {
@@ -156,10 +179,40 @@ public final class ObjectDefinitionDecoder implements Runnable {
                 removeClipping = true;
             } else if (opcode == 75) {
                 buf.get();
-            } else if (opcode == 77) {
-                buf.position(buf.position() + 2 * Short.BYTES);
+            } else if (opcode == 77 || opcode == 92) {
+                ByteBufferUtil.skip(buf,4);
+                if(opcode == 92){
+                    ByteBufferUtil.skip(buf,2);
+                }
                 int len = buf.get();
                 buf.position(buf.position() + (len + 1) * Short.BYTES);
+            } else if(opcode == 78) {
+                try {
+                ByteBufferUtil.skip(buf, 3);
+                } catch(Exception e){
+                    e.printStackTrace();
+                    LOGGER.info("error in object opcodes 78");
+                }
+            } else if(opcode == 79) {
+                try {
+                ByteBufferUtil.skip(buf,5);
+                int len = buf.get();
+                ByteBufferUtil.skip(buf,2 * len);
+                } catch(Exception e){
+                    e.printStackTrace();
+                    LOGGER.info("error in object opcodes 79");
+                }
+            } else if(opcode == 81) {
+                try {
+                ByteBufferUtil.skip(buf, 1);
+                } catch(Exception e){
+                    e.printStackTrace();
+                    LOGGER.info("error in object opcodes 91");
+                }
+            } else if (opcode == 82) {
+                ByteBufferUtil.skip(buf, 2);
+            } else if(opcode == 89){
+                field3621 = false;
             }
         } while (true);
 
@@ -174,6 +227,6 @@ public final class ObjectDefinitionDecoder implements Runnable {
             impenetrable = false;
         }
 
-        GameObjectDefinition.addDefinition(new GameObjectDefinition(id, name, desc, width, length, solid, impenetrable, hasActions, wall, decoration));
+        GameObjectDefinition.addDefinition(new GameObjectDefinition(id, name, desc, width, length, solid, impenetrable, hasActions, wall, decoration, aBoolean779));
     }
 }
