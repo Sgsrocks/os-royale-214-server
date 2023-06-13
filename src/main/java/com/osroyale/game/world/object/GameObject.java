@@ -20,7 +20,7 @@ public interface GameObject extends Interactable {
     GenericAttributes getGenericAttributes();
 
     /** Gets the object definition. */
-    GameObjectDefinition getDefinition();
+    ObjectDefinition getDefinition();
 
     /** Gets the regional location. */
     Position getPosition();

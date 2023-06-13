@@ -22,7 +22,7 @@ import static com.osroyale.game.world.object.ObjectDirection.*;
 public class StaticGameObject implements GameObject {
 
     /** The object definition. */
-    private GameObjectDefinition definition;
+    private ObjectDefinition definition;
 
     /** The generic attributes. */
     private GenericAttributes genericAttributes;
@@ -37,7 +37,7 @@ public class StaticGameObject implements GameObject {
     private ObjectDirection direction;
 
     /** Creates the game object. */
-    public StaticGameObject(GameObjectDefinition definition, Position position, ObjectType type, ObjectDirection direction) {
+    public StaticGameObject(ObjectDefinition definition, Position position, ObjectType type, ObjectDirection direction) {
         this.definition = definition;
         this.position = position;
         this.type = type;
@@ -53,7 +53,7 @@ public class StaticGameObject implements GameObject {
     }
 
     @Override
-    public GameObjectDefinition getDefinition() {
+    public ObjectDefinition getDefinition() {
         return definition;
     }
 
@@ -65,17 +65,17 @@ public class StaticGameObject implements GameObject {
     @Override
     public int width() {
         if (direction == NORTH || direction == SOUTH) {
-            return definition.getLength();
+            return definition.length;
         }
-        return definition.getWidth();
+        return definition.width;
     }
 
     @Override
     public int length() {
         if (direction == NORTH || direction == SOUTH) {
-            return definition.getWidth();
+            return definition.width;
         }
-        return definition.getLength();
+        return definition.length;
     }
 
     @Override
@@ -125,7 +125,7 @@ public class StaticGameObject implements GameObject {
     @Override
     public void transform(int id) {
         unregister();
-        definition = GameObjectDefinition.forId(id);
+        definition = ObjectDefinition.lookup(id);
         register();
     }
 

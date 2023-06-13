@@ -4,12 +4,13 @@ import com.osroyale.game.event.impl.ObjectClickEvent;
 import com.osroyale.game.plugin.PluginContext;
 import com.osroyale.game.world.entity.mob.player.Player;
 import com.osroyale.game.world.object.GameObjectDefinition;
+import com.osroyale.game.world.object.ObjectDefinition;
 
 public class OpenBankObjectClickPlugin extends PluginContext {
 
     @Override
     protected boolean firstClickObject(Player player, ObjectClickEvent event) {
-        final GameObjectDefinition def = event.getObject().getDefinition();
+        final ObjectDefinition def = event.getObject().getDefinition();
 
         if (def == null || def.getName() == null) {
             return false;
@@ -27,7 +28,7 @@ public class OpenBankObjectClickPlugin extends PluginContext {
 
     @Override
     protected boolean secondClickObject(Player player, ObjectClickEvent event) {
-        final GameObjectDefinition def = event.getObject().getDefinition();
+        final ObjectDefinition def = event.getObject().getDefinition();
 
         if (def == null || def.getName() == null) {
             return false;

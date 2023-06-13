@@ -116,7 +116,7 @@ public final class RegionDecoder implements Runnable {
                 }
 
                 Position pos = new Position(localX + x, localY + y, height);
-                GameObjectDefinition def = GameObjectDefinition.forId(objId);
+                ObjectDefinition def = ObjectDefinition.lookup(objId);
 
                 if (def == null)
                     continue;

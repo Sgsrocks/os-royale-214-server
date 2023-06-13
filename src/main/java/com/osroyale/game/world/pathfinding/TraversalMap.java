@@ -2,10 +2,7 @@ package com.osroyale.game.world.pathfinding;
 
 import com.osroyale.game.world.World;
 import com.osroyale.game.world.entity.mob.Direction;
-import com.osroyale.game.world.object.GameObject;
-import com.osroyale.game.world.object.GameObjectDefinition;
-import com.osroyale.game.world.object.ObjectDirection;
-import com.osroyale.game.world.object.ObjectType;
+import com.osroyale.game.world.object.*;
 import com.osroyale.game.world.position.Position;
 import com.osroyale.game.world.region.Region;
 import com.osroyale.util.RandomUtils;
@@ -38,9 +35,9 @@ public final class TraversalMap {
             return;
         }
 
-        GameObjectDefinition def = object.getDefinition();
+        ObjectDefinition def = object.getDefinition();
 
-        if (def.isSolid()) {
+        if (def.solid) {
             Position position = object.getPosition();
 
             //Sets the sizes.
@@ -48,34 +45,35 @@ public final class TraversalMap {
             final int sizeY;
 
             if (object.getDirection() == ObjectDirection.NORTH || object.getDirection() == ObjectDirection.SOUTH) {
-                sizeX = def.getLength();
-                sizeY = def.getWidth();
+                sizeX = def.length;
+                sizeY = def.width;
             } else {
-                sizeX = def.getWidth();
-                sizeY = def.getLength();
+                sizeX = def.width;
+                sizeY = def.length;
             }
 
             if (object.getObjectType() == GROUND_PROP) {
-                if (def.hasActions() || def.isDecoration()) {
-                    if (def.hasActions()) {
-                        markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, false, add);
+                if (def.interactive || def.obstructsGround) {
+                    if (def.interactive) {
+                        markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY,
+                                false, add);
                     }
                 }
             } else if (object.getObjectType() == GENERAL_PROP || object.getObjectType() == WALKABLE_PROP) {
-                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.isImpenetrable(), add);
+                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.impenetrable, add);
             } else if (object.getObjectType().getId() >= 12) {
-                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.isImpenetrable(), add);
+                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.impenetrable, add);
             } else if (object.getObjectType() == DIAGONAL_WALL) {
-                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.isImpenetrable(), add);
+                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.impenetrable, add);
             } else if (object.getObjectType().getId() >= 0 && object.getObjectType().getId() <= 3) {
                 if (add)
-                    markWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.isImpenetrable());
+                    markWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.impenetrable);
                 else
-                    unmarkWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.isImpenetrable());
+                    unmarkWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.impenetrable);
             }
         }
 
-        if (list && (object.getId() == 11700 || object.getDefinition().hasActions())) {
+        if (list && (object.getId() == 11700 || object.getDefinition().interactive)) {
             if (add) region.addObject(object);
             else region.removeObject(object);
         }

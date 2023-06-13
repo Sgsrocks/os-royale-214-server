@@ -25,7 +25,7 @@ import static com.osroyale.game.world.object.ObjectDirection.SOUTH;
 public class CustomGameObject extends Entity implements GameObject {
 
     /** The object definition. */
-    private GameObjectDefinition definition;
+    private ObjectDefinition definition;
 
     /** The object direction. */
     private ObjectDirection direction;
@@ -38,7 +38,7 @@ public class CustomGameObject extends Entity implements GameObject {
 
     public CustomGameObject(int id, int instance, Position position, ObjectDirection direction, ObjectType type) {
         super(position);
-        this.definition = GameObjectDefinition.forId(id);
+        this.definition = ObjectDefinition.lookup(id);
         this.instance = instance;
         this.direction = direction;
         this.type = type;
@@ -69,24 +69,24 @@ public class CustomGameObject extends Entity implements GameObject {
     }
 
     @Override
-    public GameObjectDefinition getDefinition() {
+    public ObjectDefinition getDefinition() {
         return definition;
     }
 
     @Override
     public int width() {
         if (direction == NORTH || direction == SOUTH) {
-            return definition.getLength();
+            return definition.length;
         }
-        return definition.getWidth();
+        return definition.width;
     }
 
     @Override
     public int length() {
         if (direction == NORTH || direction == SOUTH) {
-            return definition.getWidth();
+            return definition.width;
         }
-        return definition.getLength();
+        return definition.length;
     }
 
     @Override
@@ -161,7 +161,7 @@ public class CustomGameObject extends Entity implements GameObject {
     @Override
     public void transform(int id) {
         unregister();
-        definition = GameObjectDefinition.forId(id);
+        definition = ObjectDefinition.lookup(id);
         register();
     }
 
