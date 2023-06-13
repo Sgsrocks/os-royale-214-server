@@ -315,7 +315,15 @@ public final class ObjectDefinition {
     public int getId() {
         return id;
     }
-
+public int getWidth(){
+        return width;
+}
+public int getLength(){
+        return length;
+}
+public boolean isImpenetrable(){
+        return impenetrable;
+}
     public String getName() {
         return name;
     }

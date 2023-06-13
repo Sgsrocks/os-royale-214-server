@@ -46,9 +46,9 @@ public final class TraversalMap {
 
             if (object.getDirection() == ObjectDirection.NORTH || object.getDirection() == ObjectDirection.SOUTH) {
                 sizeX = def.length;
-                sizeY = def.width;
+                sizeY = def.getWidth();
             } else {
-                sizeX = def.width;
+                sizeX = def.getWidth();
                 sizeY = def.length;
             }
 
@@ -60,16 +60,16 @@ public final class TraversalMap {
                     }
                 }
             } else if (object.getObjectType() == GENERAL_PROP || object.getObjectType() == WALKABLE_PROP) {
-                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.impenetrable, add);
+                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.isImpenetrable(), add);
             } else if (object.getObjectType().getId() >= 12) {
-                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.impenetrable, add);
+                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.isImpenetrable(), add);
             } else if (object.getObjectType() == DIAGONAL_WALL) {
-                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.impenetrable, add);
+                markOccupant(region, position.getHeight(), position.getX(), position.getY(), sizeX, sizeY, def.isImpenetrable(), add);
             } else if (object.getObjectType().getId() >= 0 && object.getObjectType().getId() <= 3) {
                 if (add)
-                    markWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.impenetrable);
+                    markWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.isImpenetrable());
                 else
-                    unmarkWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.impenetrable);
+                    unmarkWall(region, object.getDirection(), position.getHeight(), position.getX(), position.getY(), object.getObjectType(), def.isImpenetrable());
             }
         }
 

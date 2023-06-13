@@ -15,6 +15,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static java.nio.file.Paths.*;
+
 /**
  * Handles the profile repository, used for gathering important information for
  * all created profiles.
@@ -64,7 +66,7 @@ public class ProfileRepository {
     public static void load() {
         Type type = new TypeToken<Map<String, Profile>>() {
         }.getType();
-        Path path = Paths.get("data", "/profile/world_profile_list.json");
+        Path path = get("data", "/profile/world_profile_list.json");
         if (!Files.exists(path)) {
             return;
         }
@@ -79,7 +81,7 @@ public class ProfileRepository {
     /**  Saves all the profiles. */
     public static void save() {
         new Thread(() -> {
-            File dir = Paths.get("data", "profile").toFile();
+            File dir = get("data", "profile").toFile();
 
             if (!dir.exists()) {
                 dir.mkdirs();

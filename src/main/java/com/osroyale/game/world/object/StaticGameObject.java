@@ -65,17 +65,17 @@ public class StaticGameObject implements GameObject {
     @Override
     public int width() {
         if (direction == NORTH || direction == SOUTH) {
-            return definition.length;
+            return definition.getLength();
         }
-        return definition.width;
+        return definition.getWidth();
     }
 
     @Override
     public int length() {
         if (direction == NORTH || direction == SOUTH) {
-            return definition.width;
+            return definition.getWidth();
         }
-        return definition.length;
+        return definition.getLength();
     }
 
     @Override
